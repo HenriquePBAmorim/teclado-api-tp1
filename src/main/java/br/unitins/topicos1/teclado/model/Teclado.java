@@ -1,5 +1,6 @@
 package br.unitins.topicos1.teclado.model;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 
 @Entity
