@@ -55,7 +55,7 @@ public class TecladoResource {
         existente.setMarca(teclado.getMarca());
         existente.setModelo(teclado.getModelo());
         existente.setTipo(teclado.getTipo());
-        existente.setIdoma(teclado.getIdoma());
+        existente.setIdioma(teclado.getIdioma());
         existente.setComFio(teclado.getComFio());
         existente.setIluminacaoRgb(teclado.getIluminacaoRgb());
         existente.setPreco(teclado.getPreco());
