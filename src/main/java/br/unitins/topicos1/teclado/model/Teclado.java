@@ -7,17 +7,16 @@ import jakarta.persistence.ManyToOne;
 public class Teclado extends DefaultEntity {
     
     private String nome;
-    private String modelo;  
+    private String modelo;    
     private String tipo;
-    private String idioma;   
+    private String idioma;     
     private Boolean comFio;
     private Boolean iluminacaoRgb;
     private Double preco;
 
     @ManyToOne
-    private Marca marca;    
+    private Marca marca;     
 
-    
     public String getNome() {
         return nome;
     }

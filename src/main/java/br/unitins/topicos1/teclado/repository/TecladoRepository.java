@@ -9,8 +9,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class TecladoRepository implements PanacheRepository<Teclado>{
 
-    public List<Teclado> findBynNome(String nome) {
-        return find("nome LIKE ?1" +nome+ "%").list();
+    public List<Teclado> findByNome(String nome) {
+        return find("nome LIKE ?1", "%" + nome + "%").list();
     }
 
 }

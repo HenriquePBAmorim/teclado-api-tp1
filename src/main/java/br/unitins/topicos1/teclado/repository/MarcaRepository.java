@@ -7,10 +7,9 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class MarcareRepository implements PanacheRepository<Marca>{
+public class MarcaRepository implements PanacheRepository<Marca>{
     
     public List<Marca> findByNome(String nome) {
         return find("SELECT m From Marca m WHERE m.nome LIKE ?1", "%" +nome+ "%").list();
-    
     }
 }

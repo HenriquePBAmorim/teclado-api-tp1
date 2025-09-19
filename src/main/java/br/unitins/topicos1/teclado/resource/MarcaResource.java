@@ -2,8 +2,9 @@ package br.unitins.topicos1.teclado.resource;
 
 import java.util.List;
 
+import br.unitins.topicos1.teclado.dto.MarcaDTO;
 import br.unitins.topicos1.teclado.model.Marca;
-import br.unitins.topicos1.teclado.repository.MarcareRepository;
+import br.unitins.topicos1.teclado.repository.MarcaRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -23,7 +24,7 @@ import jakarta.ws.rs.core.MediaType;
 public class MarcaResource {
     
     @Inject
-    MarcareRepository repository;
+    MarcaRepository repository;
 
     @GET
     public List<Marca> buscarTodas() {
@@ -39,21 +40,25 @@ public class MarcaResource {
 
     @POST
     @Transactional
-    public Marca incluir(Marca marca) {
+    public Marca incluir(MarcaDTO dto) {
+        Marca marca = new Marca();
+        marca.setNome(dto.nome());
+        marca.setDescricao(dto.descricao());
+        
         repository.persist(marca);
         return marca;
     }
 
-        @PUT
+    @PUT
     @Path("/{id}")
     @Transactional
-    public Marca alterar(@PathParam("id") Long id, Marca marca) {
+    public Marca alterar(@PathParam("id") Long id, MarcaDTO dto) {
         Marca existente = repository.findById(id);
         if (existente == null) {
             throw new NotFoundException("Marca não encontrada");
         }
-        existente.setNome(marca.getNome());
-        existente.setDescricao(marca.getDescricao());
+        existente.setNome(dto.nome());
+        existente.setDescricao(dto.descricao());
         return existente;
     }
 
@@ -65,5 +70,4 @@ public class MarcaResource {
             throw new NotFoundException("Marca não encontrada");
         }
     }
-
 }

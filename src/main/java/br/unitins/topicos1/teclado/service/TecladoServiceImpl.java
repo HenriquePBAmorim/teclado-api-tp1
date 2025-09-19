@@ -1,4 +1,4 @@
-package br.unitins.topicos1.teclado.resource;
+package br.unitins.topicos1.teclado.service;
 
 import java.util.List;
 
@@ -7,44 +7,37 @@ import br.unitins.topicos1.teclado.model.Marca;
 import br.unitins.topicos1.teclado.model.Teclado;
 import br.unitins.topicos1.teclado.repository.MarcaRepository;
 import br.unitins.topicos1.teclado.repository.TecladoRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.NotFoundException;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
 
-@Path("/teclados")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
-public class TecladoResource {
+@ApplicationScoped
+public class TecladoServiceImpl implements TecladoService {
 
     @Inject
     TecladoRepository repository;
-    
+
     @Inject
     MarcaRepository marcaRepository;
 
-    @GET
-    public List<Teclado> buscarTodos() {
+    @Override
+    public List<Teclado> findAll() {
         return repository.listAll();
     }
 
-    @GET
-    @Path("/find/{nome}")
-    public List<Teclado> buscarPorNome(@PathParam("nome") String nome) {
+    @Override
+    public List<Teclado> findByNome(String nome) {
         return repository.findByNome(nome);
     }
 
-    @POST
+    @Override
+    public Teclado findById(Long id) {
+        return repository.findById(id);
+    }
+
+    @Override
     @Transactional
-    public Teclado incluir(TecladoDTO dto) {
+    public Teclado create(TecladoDTO dto) {
         Teclado teclado = new Teclado();
         teclado.setNome(dto.nome());
         teclado.setModelo(dto.modelo());
@@ -61,15 +54,10 @@ public class TecladoResource {
         return teclado;
     }
 
-    @PUT
-    @Path("/{id}")
+    @Override
     @Transactional
-    public Teclado alterar(@PathParam("id") Long id, TecladoDTO dto) {
+    public void update(Long id, TecladoDTO dto) {
         Teclado existente = repository.findById(id);
-        if (existente == null) {
-            throw new NotFoundException("Teclado não encontrado");
-        }
-        
         existente.setNome(dto.nome());
         existente.setModelo(dto.modelo());
         existente.setTipo(dto.tipo());
@@ -80,16 +68,11 @@ public class TecladoResource {
         
         Marca marca = marcaRepository.findById(dto.idMarca());
         existente.setMarca(marca);
-        
-        return existente;
-    }   
-    
-    @DELETE
-    @Path("/{id}")
+    }
+
+    @Override
     @Transactional
-    public void apagar(@PathParam("id") Long id) {
-        if (!repository.deleteById(id)) {
-            throw new NotFoundException("Teclado não encontrado");
-        }
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 }

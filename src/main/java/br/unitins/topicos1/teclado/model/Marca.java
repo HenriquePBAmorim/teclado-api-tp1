@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 @Entity
 public class Marca extends DefaultEntity{
 
-    private String nome; 
+    private String nome;  
     private String descricao;
 
     public String getNome() {
@@ -20,9 +20,4 @@ public class Marca extends DefaultEntity{
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    public Object getPaisOrigem() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPaisOrigem'");
-    }
-
 }
