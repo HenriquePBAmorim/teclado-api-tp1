@@ -1,21 +1,11 @@
 package br.unitins.topicos1.teclado.resource;
 
 import java.util.List;
-
 import br.unitins.topicos1.teclado.dto.MarcaDTO;
-import br.unitins.topicos1.teclado.model.Marca;
-import br.unitins.topicos1.teclado.repository.MarcaRepository;
+import br.unitins.topicos1.teclado.dto.MarcaDTOResponse;
+import br.unitins.topicos1.teclado.service.MarcaService;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.NotFoundException;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/marcas")
@@ -24,50 +14,33 @@ import jakarta.ws.rs.core.MediaType;
 public class MarcaResource {
     
     @Inject
-    MarcaRepository repository;
+    MarcaService service;
 
     @GET
-    public List<Marca> buscarTodas() {
-        return repository.listAll();
+    public List<MarcaDTOResponse> buscarTodas() {
+        return service.findAll();
     }
     
     @GET
     @Path("/find/{nome}")
-    public List<Marca> buscarPorNome(@PathParam("nome") String nome ) {
-        return repository.findByNome(nome);
-
+    public List<MarcaDTOResponse> buscarPorNome(@PathParam("nome") String nome ) {
+        return service.findByNome(nome);
     }
 
     @POST
-    @Transactional
-    public Marca incluir(MarcaDTO dto) {
-        Marca marca = new Marca();
-        marca.setNome(dto.nome());
-        marca.setDescricao(dto.descricao());
-        
-        repository.persist(marca);
-        return marca;
+    public MarcaDTOResponse incluir(MarcaDTO dto) {
+        return service.create(dto);
     }
 
     @PUT
     @Path("/{id}")
-    @Transactional
-    public Marca alterar(@PathParam("id") Long id, MarcaDTO dto) {
-        Marca existente = repository.findById(id);
-        if (existente == null) {
-            throw new NotFoundException("Marca não encontrada");
-        }
-        existente.setNome(dto.nome());
-        existente.setDescricao(dto.descricao());
-        return existente;
+    public void alterar(@PathParam("id") Long id, MarcaDTO dto) {
+        service.update(id, dto);
     }
 
     @DELETE
     @Path("/{id}")
-    @Transactional
     public void apagar(@PathParam("id") Long id) {
-        if (!repository.deleteById(id)) {
-            throw new NotFoundException("Marca não encontrada");
-        }
+        service.delete(id);
     }
 }

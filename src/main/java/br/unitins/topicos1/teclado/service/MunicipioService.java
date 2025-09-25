@@ -1,15 +1,15 @@
+// MunicipioService.java
 package br.unitins.topicos1.teclado.service;
 
 import java.util.List;
-
 import br.unitins.topicos1.teclado.dto.MunicipioDTO;
-import br.unitins.topicos1.teclado.model.Municipio;
+import br.unitins.topicos1.teclado.dto.MunicipioDTOResponse;
 
 public interface MunicipioService {
-    List<Municipio> findAll();
-    List<Municipio> findByNome(String nome);
-    Municipio findById(Long id);
-    Municipio create(MunicipioDTO dto);
+    List<MunicipioDTOResponse> findAll();
+    List<MunicipioDTOResponse> findByNome(String nome);
+    MunicipioDTOResponse findById(Long id);
+    MunicipioDTOResponse create(MunicipioDTO dto);
     void update(Long id, MunicipioDTO dto);
     void delete(Long id);
 }

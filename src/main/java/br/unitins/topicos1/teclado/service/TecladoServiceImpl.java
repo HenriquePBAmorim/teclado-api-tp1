@@ -1,10 +1,11 @@
 package br.unitins.topicos1.teclado.service;
 
 import java.util.List;
-
 import br.unitins.topicos1.teclado.dto.TecladoDTO;
+import br.unitins.topicos1.teclado.dto.TecladoDTOResponse;
 import br.unitins.topicos1.teclado.model.Marca;
 import br.unitins.topicos1.teclado.model.Teclado;
+import br.unitins.topicos1.teclado.model.TipoTeclado;
 import br.unitins.topicos1.teclado.repository.MarcaRepository;
 import br.unitins.topicos1.teclado.repository.TecladoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -16,32 +17,28 @@ public class TecladoServiceImpl implements TecladoService {
 
     @Inject
     TecladoRepository repository;
-
     @Inject
     MarcaRepository marcaRepository;
 
     @Override
-    public List<Teclado> findAll() {
-        return repository.listAll();
+    public List<TecladoDTOResponse> findAll() {
+        return repository.listAll().stream().map(TecladoDTOResponse::valueOf).toList();
     }
-
     @Override
-    public List<Teclado> findByNome(String nome) {
-        return repository.findByNome(nome);
+    public List<TecladoDTOResponse> findByNome(String nome) {
+        return repository.findByNome(nome).stream().map(TecladoDTOResponse::valueOf).toList();
     }
-
     @Override
     public Teclado findById(Long id) {
         return repository.findById(id);
     }
-
     @Override
     @Transactional
-    public Teclado create(TecladoDTO dto) {
+    public TecladoDTOResponse create(TecladoDTO dto) {
         Teclado teclado = new Teclado();
         teclado.setNome(dto.nome());
         teclado.setModelo(dto.modelo());
-        teclado.setTipo(dto.tipo());
+        teclado.setTipo(TipoTeclado.valueOf(dto.idTipo()));
         teclado.setIdioma(dto.idioma());
         teclado.setComFio(dto.comFio());
         teclado.setIluminacaoRgb(dto.iluminacaoRgb());
@@ -51,16 +48,17 @@ public class TecladoServiceImpl implements TecladoService {
         teclado.setMarca(marca);
         
         repository.persist(teclado);
-        return teclado;
+        return TecladoDTOResponse.valueOf(teclado);
     }
-
     @Override
     @Transactional
     public void update(Long id, TecladoDTO dto) {
         Teclado existente = repository.findById(id);
+        if (existente == null) throw new jakarta.ws.rs.NotFoundException("Teclado não encontrado.");
+        
         existente.setNome(dto.nome());
         existente.setModelo(dto.modelo());
-        existente.setTipo(dto.tipo());
+        existente.setTipo(TipoTeclado.valueOf(dto.idTipo()));
         existente.setIdioma(dto.idioma());
         existente.setComFio(dto.comFio());
         existente.setIluminacaoRgb(dto.iluminacaoRgb());
@@ -69,10 +67,10 @@ public class TecladoServiceImpl implements TecladoService {
         Marca marca = marcaRepository.findById(dto.idMarca());
         existente.setMarca(marca);
     }
-
     @Override
     @Transactional
     public void delete(Long id) {
-        repository.deleteById(id);
+        if (!repository.deleteById(id))
+            throw new jakarta.ws.rs.NotFoundException("Teclado não encontrado.");
     }
 }

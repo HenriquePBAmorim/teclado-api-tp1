@@ -1,23 +1,12 @@
+// TecladoResource.java
 package br.unitins.topicos1.teclado.resource;
 
 import java.util.List;
-
 import br.unitins.topicos1.teclado.dto.TecladoDTO;
-import br.unitins.topicos1.teclado.model.Marca;
-import br.unitins.topicos1.teclado.model.Teclado;
-import br.unitins.topicos1.teclado.repository.MarcaRepository;
-import br.unitins.topicos1.teclado.repository.TecladoRepository;
+import br.unitins.topicos1.teclado.dto.TecladoDTOResponse;
+import br.unitins.topicos1.teclado.service.TecladoService;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.NotFoundException;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/teclados")
@@ -26,70 +15,33 @@ import jakarta.ws.rs.core.MediaType;
 public class TecladoResource {
 
     @Inject
-    TecladoRepository repository;
-    
-    @Inject
-    MarcaRepository marcaRepository;
+    TecladoService service;
 
     @GET
-    public List<Teclado> buscarTodos() {
-        return repository.listAll();
+    public List<TecladoDTOResponse> buscarTodos() {
+        return service.findAll();
     }
 
     @GET
     @Path("/find/{nome}")
-    public List<Teclado> buscarPorNome(@PathParam("nome") String nome) {
-        return repository.findByNome(nome);
+    public List<TecladoDTOResponse> buscarPorNome(@PathParam("nome") String nome) {
+        return service.findByNome(nome);
     }
 
     @POST
-    @Transactional
-    public Teclado incluir(TecladoDTO dto) {
-        Teclado teclado = new Teclado();
-        teclado.setNome(dto.nome());
-        teclado.setModelo(dto.modelo());
-        teclado.setTipo(dto.tipo());
-        teclado.setIdioma(dto.idioma());
-        teclado.setComFio(dto.comFio());
-        teclado.setIluminacaoRgb(dto.iluminacaoRgb());
-        teclado.setPreco(dto.preco());
-        
-        Marca marca = marcaRepository.findById(dto.idMarca());
-        teclado.setMarca(marca);
-        
-        repository.persist(teclado);
-        return teclado;
+    public TecladoDTOResponse incluir(TecladoDTO dto) {
+        return service.create(dto);
     }
 
     @PUT
     @Path("/{id}")
-    @Transactional
-    public Teclado alterar(@PathParam("id") Long id, TecladoDTO dto) {
-        Teclado existente = repository.findById(id);
-        if (existente == null) {
-            throw new NotFoundException("Teclado não encontrado");
-        }
-        
-        existente.setNome(dto.nome());
-        existente.setModelo(dto.modelo());
-        existente.setTipo(dto.tipo());
-        existente.setIdioma(dto.idioma());
-        existente.setComFio(dto.comFio());
-        existente.setIluminacaoRgb(dto.iluminacaoRgb());
-        existente.setPreco(dto.preco());
-        
-        Marca marca = marcaRepository.findById(dto.idMarca());
-        existente.setMarca(marca);
-        
-        return existente;
+    public void alterar(@PathParam("id") Long id, TecladoDTO dto) {
+        service.update(id, dto);
     }   
     
     @DELETE
     @Path("/{id}")
-    @Transactional
     public void apagar(@PathParam("id") Long id) {
-        if (!repository.deleteById(id)) {
-            throw new NotFoundException("Teclado não encontrado");
-        }
+        service.delete(id);
     }
 }

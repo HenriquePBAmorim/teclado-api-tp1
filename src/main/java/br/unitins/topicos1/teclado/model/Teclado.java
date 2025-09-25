@@ -8,18 +8,19 @@ public class Teclado extends DefaultEntity {
     
     private String nome;
     private String modelo;    
-    private String tipo;
+    private TipoTeclado tipo;
     private String idioma;     
     private Boolean comFio;
     private Boolean iluminacaoRgb;
     private Double preco;
 
     @ManyToOne
-    private Marca marca;     
+    private Marca marca;
 
     public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -27,20 +28,23 @@ public class Teclado extends DefaultEntity {
     public String getModelo() {
         return modelo;
     }
+
     public void setModelo(String modelo) {
         this.modelo = modelo;
     }
 
-    public String getTipo() {
+    public TipoTeclado getTipo() {
         return tipo;
     }
-    public void setTipo(String tipo) {
+
+    public void setTipo(TipoTeclado tipo) {
         this.tipo = tipo;
     }
 
     public String getIdioma() {
         return idioma;
     }
+
     public void setIdioma(String idioma) {
         this.idioma = idioma;
     }
@@ -48,6 +52,7 @@ public class Teclado extends DefaultEntity {
     public Boolean getComFio() {
         return comFio;
     }
+
     public void setComFio(Boolean comFio) {
         this.comFio = comFio;
     }
@@ -55,6 +60,7 @@ public class Teclado extends DefaultEntity {
     public Boolean getIluminacaoRgb() {
         return iluminacaoRgb;
     }
+
     public void setIluminacaoRgb(Boolean iluminacaoRgb) {
         this.iluminacaoRgb = iluminacaoRgb;
     }
@@ -62,6 +68,7 @@ public class Teclado extends DefaultEntity {
     public Double getPreco() {
         return preco;
     }
+
     public void setPreco(Double preco) {
         this.preco = preco;
     }
@@ -69,7 +76,10 @@ public class Teclado extends DefaultEntity {
     public Marca getMarca() {
         return marca;
     }
+
     public void setMarca(Marca marca) {
         this.marca = marca;
-    }
+    }     
+
+    
 }
