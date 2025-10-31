@@ -1,11 +1,13 @@
 package br.unitins.topicos1.teclado.dto;
 
-public record MunicipioDTO(
-    String nome) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-    public Long idEstado() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'idEstado'");
-    }
-    
+public record MunicipioDTO(
+    @NotBlank(message = "O nome do município deve ser informado.")
+    String nome,
+
+    @NotNull(message = "O estado deve ser informado.")
+    Long idEstado
+) {
 }

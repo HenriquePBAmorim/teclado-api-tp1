@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToOne;
 public class Municipio extends DefaultEntity {
 
     private String nome;
+
     @ManyToOne
     @JoinColumn(name = "id_estado")
     private Estado estado;
@@ -27,5 +28,4 @@ public class Municipio extends DefaultEntity {
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
-
 }
