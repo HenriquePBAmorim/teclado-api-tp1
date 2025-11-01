@@ -3,7 +3,6 @@ package br.unitins.topicos1.teclado.service;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import br.unitins.topicos1.teclado.dto.TecladoDTO;
 import br.unitins.topicos1.teclado.dto.TecladoDTOResponse;

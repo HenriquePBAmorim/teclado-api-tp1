@@ -1,11 +1,11 @@
 package br.unitins.topicos1.teclado.model.jpa;
 
-import br.unitins.topicos1.teclado.model.Regiao;
+import br.unitins.topicos1.teclado.model.Regiao; 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 @Converter(autoApply = true)
-public class RegiaoConverter implements AttributeConverter<Regiao, Long>{
+public class RegiaoConverter implements AttributeConverter<Regiao, Long>{ 
 
     @Override
     public Long convertToDatabaseColumn(Regiao regiao) {

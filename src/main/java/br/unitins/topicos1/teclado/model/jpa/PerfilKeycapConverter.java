@@ -1,12 +1,12 @@
-package br.unitins.topicos1.teclado.model;
+package br.unitins.topicos1.teclado.model.jpa;
 
-import br.unitins.topicos1.teclado.model.PerfilKeycap;
+import br.unitins.topicos1.teclado.model.PerfilKeycap; 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 @Converter(autoApply = true)
-public class PerfilKeycapConverter implements AttributeConverter<PerfilKeycap, Integer> {
-
+public class PerfilKeycapConverter implements AttributeConverter<PerfilKeycap, Integer> { 
+    
     @Override
     public Integer convertToDatabaseColumn(PerfilKeycap perfil) {
         return (perfil == null) ? null : perfil.ID;

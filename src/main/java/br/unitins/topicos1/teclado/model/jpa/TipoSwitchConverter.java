@@ -1,11 +1,11 @@
-package br.unitins.topicos1.teclado.model;
+package br.unitins.topicos1.teclado.model.jpa;
 
 import br.unitins.topicos1.teclado.model.TipoSwitch;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 @Converter(autoApply = true)
-public class TipoSwitchConverter implements AttributeConverter<TipoSwitch, Integer> {
+public class TipoSwitchConverter implements AttributeConverter<TipoSwitch, Integer> { 
 
     @Override
     public Integer convertToDatabaseColumn(TipoSwitch tipo) {
