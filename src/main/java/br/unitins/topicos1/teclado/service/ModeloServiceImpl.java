@@ -28,7 +28,6 @@ public class ModeloServiceImpl implements ModeloService {
 
     @Override
     public ModeloDTOResponse findById(Long id) {
-        // CORREÇÃO: Implementando o padrão do professor
         Modelo m = repository.findById(id);
         if (m == null)
             return null; 

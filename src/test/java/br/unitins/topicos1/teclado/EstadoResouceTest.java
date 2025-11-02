@@ -84,7 +84,6 @@ class EstadoResourceTest {
 
         response = estadoService.findById(response.id());
 
-        // verificando se o resultado é nullo
         assertNull(response);
         
     }

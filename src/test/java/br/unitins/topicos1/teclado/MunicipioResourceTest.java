@@ -26,18 +26,16 @@ public class MunicipioResourceTest {
 
     @Test
     public void buscarTodosTest() {
-        // O import.sql insere 5 municípios
         given()
           .when()
             .get("/municipios")
           .then()
             .statusCode(200)
-            .body("size()", greaterThanOrEqualTo(5)); // Verifica os dados do import
+            .body("size()", greaterThanOrEqualTo(5)); 
     }
 
     @Test
     public void buscarPorNomeTest() {
-        // O import.sql insere "Palmas"
         given()
           .when()
             .get("/municipios/find/Palmas")
@@ -49,8 +47,6 @@ public class MunicipioResourceTest {
 
     @Test
     public void incluirTest() {
-        // Teste de POST (Black box)
-        // 1L = Estado 'Tocantins' (do import.sql)
         MunicipioDTO dto = new MunicipioDTO(
             "Paraíso do Tocantins", 
             1L 
@@ -62,58 +58,48 @@ public class MunicipioResourceTest {
           .when()
             .post("/municipios")
           .then()
-            .statusCode(201) // 201 Created
+            .statusCode(201) 
             .body(
                 "id", notNullValue(),
                 "nome", is("Paraíso do Tocantins"),
-                "estado.id", is(1), // Verifica o objeto aninhado
+                "estado.id", is(1), 
                 "estado.sigla", is("TO")
             );
     }
 
     @Test
     public void alterarTest() {
-        // 1. Setup (Gray Box) - Criando um município
-        // 1L = Tocantins
         MunicipioDTO dtoOriginal = new MunicipioDTO("Município Original", 1L);
         MunicipioDTOResponse municipioCriado = municipioService.create(dtoOriginal);
         Long id = municipioCriado.id();
 
-        // 2. Teste (API)
-        // 2L = Goiás
         MunicipioDTO dtoUpdate = new MunicipioDTO("Município Alterado", 2L); 
 
         given()
           .contentType(ContentType.JSON)
           .body(dtoUpdate)
           .when()
-            .put("/municipios/" + id) // Usando o ID criado
+            .put("/municipios/" + id) 
           .then()
-            .statusCode(204); // 204 No Content
-
-        // 3. Verificação (Gray Box) - Verificando no banco
+            .statusCode(204); 
         MunicipioDTOResponse municipioAtualizado = municipioService.findById(id);
-        assertNotNull(municipioAtualizado); // Garante que não foi apagado
+        assertNotNull(municipioAtualizado); 
         assertEquals(dtoUpdate.nome(), municipioAtualizado.nome());
         assertEquals(dtoUpdate.idEstado(), municipioAtualizado.estado().id());
     }
 
     @Test
     public void apagarTest() {
-        // 1. Setup (Gray Box)
         MunicipioDTO dto = new MunicipioDTO("Município Para Apagar", 1L);
         MunicipioDTOResponse municipioCriado = municipioService.create(dto);
         Long id = municipioCriado.id();
 
-        // 2. Teste (API)
         given()
           .when()
             .delete("/municipios/" + id)
           .then()
-            .statusCode(204); // 204 No Content
-
-        // 3. Verificação (Gray Box)
-        // (Usando o padrão do professor, que espera 'null' do findById)
+            .statusCode(204);
+            
         MunicipioDTOResponse municipioApagado = municipioService.findById(id);
         assertNull(municipioApagado);
     }
