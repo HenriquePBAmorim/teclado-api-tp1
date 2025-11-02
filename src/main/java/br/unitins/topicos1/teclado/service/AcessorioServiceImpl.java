@@ -28,7 +28,8 @@ public class AcessorioServiceImpl implements AcessorioService {
     public AcessorioDTOResponse findById(Long id) {
         Acessorio a = repository.findById(id);
         if (a == null)
-            throw new NotFoundException("Acessório não encontrado.");
+            return null; 
+            
         return AcessorioDTOResponse.valueOf(a);
     }
 
@@ -40,7 +41,6 @@ public class AcessorioServiceImpl implements AcessorioService {
     @Override
     @Transactional
     public AcessorioDTOResponse create(@Valid AcessorioDTO dto) {
-        
         validarNomeAcessorio(dto.nome(), null);
         
         Acessorio a = new Acessorio();
@@ -57,7 +57,6 @@ public class AcessorioServiceImpl implements AcessorioService {
 
     private void validarNomeAcessorio(String nome, Long id) {
         Acessorio acessorioExistente = repository.findByNomeExatoExceptId(nome, id);
-        
         if (acessorioExistente != null) {
             throw ValidationException.of("nome", "O nome '"+nome+"' já está em uso.");
         }
@@ -83,7 +82,6 @@ public class AcessorioServiceImpl implements AcessorioService {
     @Override
     @Transactional
     public void delete(Long id) {
-        if (!repository.deleteById(id))
-            throw new NotFoundException("Acessório não encontrado.");
+        repository.deleteById(id);
     }
 }

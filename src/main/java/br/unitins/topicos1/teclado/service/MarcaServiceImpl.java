@@ -21,29 +21,38 @@ public class MarcaServiceImpl implements MarcaService {
     public List<MarcaDTOResponse> findAll() {
         return repository.listAll().stream().map(MarcaDTOResponse::valueOf).toList();
     }
+
     @Override
     public List<MarcaDTOResponse> findByNome(String nome) {
         return repository.findByNome(nome).stream().map(MarcaDTOResponse::valueOf).toList();
     }
+    
     @Override
-    public Marca findById(Long id) {
-        return repository.findById(id);
+    public MarcaDTOResponse findById(Long id) {
+        Marca marca = repository.findById(id);
+        if (marca == null)
+            return null; 
+        
+        return MarcaDTOResponse.valueOf(marca);
     }
+    
     @Override
     @Transactional
     public MarcaDTOResponse create(MarcaDTO dto) {
-        validarNomeMarca(dto, null);
+        validarNomeMarca(dto.nome(), null);
 
         Marca marca = new Marca();
         marca.setNome(dto.nome());
         marca.setDescricao(dto.descricao());
         repository.persist(marca);
+        
         return MarcaDTOResponse.valueOf(marca);
     }
+
     @Override
     @Transactional
     public void update(Long id, MarcaDTO dto) {
-        validarNomeMarca(dto, id);
+        validarNomeMarca(dto.nome(), id);
         
         Marca marca = repository.findById(id);
         if (marca == null) 
@@ -53,8 +62,8 @@ public class MarcaServiceImpl implements MarcaService {
         marca.setDescricao(dto.descricao());
     }
 
-    private void validarNomeMarca(MarcaDTO dto, Long id) {
-        Marca marca = repository.findByNomeExatoExceptId(dto.nome(), id);
+    private void validarNomeMarca(String nome, Long id) {
+        Marca marca = repository.findByNomeExatoExceptId(nome, id);
         if (marca != null) {
             throw ValidationException.of("nome", "Este nome de marca já está em uso.");
         }
@@ -63,7 +72,6 @@ public class MarcaServiceImpl implements MarcaService {
     @Override
     @Transactional
     public void delete(Long id) {
-        if (!repository.deleteById(id))
-            throw new NotFoundException("Marca não encontrada.");
+        repository.deleteById(id);
     }
 }

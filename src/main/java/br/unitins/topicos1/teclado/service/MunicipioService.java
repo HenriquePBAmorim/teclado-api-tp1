@@ -8,7 +8,7 @@ import jakarta.validation.Valid;
 public interface MunicipioService {
     List<MunicipioDTOResponse> findAll();
     List<MunicipioDTOResponse> findByNome(String nome);
-    MunicipioDTOResponse findById(Long id);
+    MunicipioDTOResponse findById(Long id); 
     MunicipioDTOResponse create(@Valid MunicipioDTO dto);
     void update(Long id, @Valid MunicipioDTO dto);
     void delete(Long id);

@@ -1,4 +1,3 @@
-
 package br.unitins.topicos1.teclado.service;
 
 import java.util.List;
@@ -27,7 +26,8 @@ public class CategoriaServiceImpl implements CategoriaService {
     public CategoriaDTOResponse findById(Long id) {
         Categoria c = repository.findById(id);
         if (c == null)
-            throw new NotFoundException("Categoria não encontrada.");
+            return null; 
+            
         return CategoriaDTOResponse.valueOf(c);
     }
 
@@ -61,7 +61,6 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     @Transactional
     public void delete(Long id) {
-        if (!repository.deleteById(id))
-            throw new NotFoundException("Categoria não encontrada.");
+        repository.deleteById(id);
     }
 }

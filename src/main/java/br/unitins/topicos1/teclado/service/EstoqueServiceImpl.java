@@ -21,7 +21,8 @@ public class EstoqueServiceImpl implements EstoqueService {
     public EstoqueDTOResponse findById(Long id) {
         Estoque e = repository.findById(id);
         if (e == null)
-            throw new NotFoundException("Estoque não encontrado.");
+            return null; 
+            
         return EstoqueDTOResponse.valueOf(e);
     }
 
@@ -50,7 +51,6 @@ public class EstoqueServiceImpl implements EstoqueService {
     @Override
     @Transactional
     public void delete(Long id) {
-        if (!repository.deleteById(id))
-            throw new NotFoundException("Estoque não encontrado.");
+        repository.deleteById(id);
     }
 }

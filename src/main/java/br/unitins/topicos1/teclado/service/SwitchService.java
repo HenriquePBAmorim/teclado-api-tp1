@@ -7,8 +7,8 @@ import jakarta.validation.Valid;
 
 public interface SwitchService {
     List<SwitchDTOResponse> findAll();
-    SwitchDTOResponse findById(Long id);
     List<SwitchDTOResponse> findByNome(String nome);
+    SwitchDTOResponse findById(Long id); 
     SwitchDTOResponse create(@Valid SwitchDTO dto);
     void update(Long id, @Valid SwitchDTO dto);
     void delete(Long id);

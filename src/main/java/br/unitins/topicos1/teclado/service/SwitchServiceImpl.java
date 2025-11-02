@@ -28,7 +28,8 @@ public class SwitchServiceImpl implements SwitchService {
     public SwitchDTOResponse findById(Long id) {
         Switch s = repository.findById(id);
         if (s == null)
-            throw new NotFoundException("Switch não encontrado.");
+            return null; 
+            
         return SwitchDTOResponse.valueOf(s);
     }
 
@@ -40,7 +41,6 @@ public class SwitchServiceImpl implements SwitchService {
     @Override
     @Transactional
     public SwitchDTOResponse create(@Valid SwitchDTO dto) {
-        // ATUALIZADO: Passa null para o ID
         validarNomeSwitch(dto.nome(), null);
         
         Switch s = new Switch();
@@ -53,13 +53,9 @@ public class SwitchServiceImpl implements SwitchService {
         return SwitchDTOResponse.valueOf(s);
     }
 
-    // MÉTODO ATUALIZADO para aceitar o ID
     private void validarNomeSwitch(String nome, Long id) {
-        // ATUALIZADO: Usa o novo método do repositório
         Switch switchExistente = repository.findByNomeExatoExceptId(nome, id);
-
         if (switchExistente != null) {
-            // CORREÇÃO APLICADA AQUI:
             throw ValidationException.of("nome", "O nome '"+nome+"' já existe.");
         }
     }
@@ -67,7 +63,6 @@ public class SwitchServiceImpl implements SwitchService {
     @Override
     @Transactional
     public void update(Long id, @Valid SwitchDTO dto) {
-        // ATUALIZADO: Validação adicionada ao método de update
         validarNomeSwitch(dto.nome(), id);
 
         Switch s = repository.findById(id);
@@ -83,7 +78,6 @@ public class SwitchServiceImpl implements SwitchService {
     @Override
     @Transactional
     public void delete(Long id) {
-        if (!repository.deleteById(id))
-            throw new NotFoundException("Switch não encontrado.");
+        repository.deleteById(id);
     }
 }

@@ -16,7 +16,6 @@ public class AcessorioRepository implements PanacheRepository<Acessorio> {
         return find("UPPER(nome) = ?1", nome.toUpperCase()).firstResult();
     }
 
-    // NOVO MÉTODO ADICIONADO (Como o do professor)
     public Acessorio findByNomeExatoExceptId(String nome, Long id) {
         if (id == null)
             return findByNomeExato(nome);

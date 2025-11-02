@@ -7,8 +7,8 @@ import jakarta.validation.Valid;
 
 public interface KeycapService {
     List<KeycapDTOResponse> findAll();
-    KeycapDTOResponse findById(Long id);
     List<KeycapDTOResponse> findByNome(String nome);
+    KeycapDTOResponse findById(Long id); 
     KeycapDTOResponse create(@Valid KeycapDTO dto);
     void update(Long id, @Valid KeycapDTO dto);
     void delete(Long id);

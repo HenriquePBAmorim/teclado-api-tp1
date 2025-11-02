@@ -29,13 +29,13 @@ public class MarcaResource {
     }
 
     @POST
-    public Response incluir(@Valid MarcaDTO dto) {
+    public Response incluir(@Valid MarcaDTO dto) { 
         return Response.status(Status.CREATED).entity(service.create(dto)).build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response alterar(@PathParam("id") Long id, @Valid MarcaDTO dto) {
+    public Response alterar(@PathParam("id") Long id, @Valid MarcaDTO dto) { 
         service.update(id, dto);
         return Response.noContent().build();
     }

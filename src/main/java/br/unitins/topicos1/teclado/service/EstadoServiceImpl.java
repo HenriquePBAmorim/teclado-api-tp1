@@ -1,7 +1,6 @@
 package br.unitins.topicos1.teclado.service;
 
 import java.util.List;
-
 import br.unitins.topicos1.teclado.dto.EstadoDTO;
 import br.unitins.topicos1.teclado.dto.EstadoDTOResponse;
 import br.unitins.topicos1.teclado.exception.ValidationException;
@@ -41,7 +40,8 @@ public class EstadoServiceImpl implements EstadoService {
     public EstadoDTOResponse findById(Long id) {
         Estado estado = repository.findById(id);
         if (estado == null)
-            throw new NotFoundException("Estado não encontrado.");
+            return null;
+            
         return EstadoDTOResponse.valueOf(estado);
     }
 
@@ -83,7 +83,6 @@ public class EstadoServiceImpl implements EstadoService {
     @Override
     @Transactional
     public void delete(Long id) {
-        if (!repository.deleteById(id))
-            throw new NotFoundException("Estado não encontrado.");
+        repository.deleteById(id);
     }
 }

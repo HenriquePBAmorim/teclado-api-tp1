@@ -16,7 +16,6 @@ public class SwitchRepository implements PanacheRepository<Switch> {
         return find("UPPER(nome) = ?1", nome.toUpperCase()).firstResult();
     }
 
-    // NOVO MÉTODO ADICIONADO (Como o do professor)
     public Switch findByNomeExatoExceptId(String nome, Long id) {
         if (id == null)
             return findByNomeExato(nome);

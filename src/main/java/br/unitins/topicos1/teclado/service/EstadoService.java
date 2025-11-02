@@ -8,7 +8,7 @@ import jakarta.validation.Valid;
 public interface EstadoService {
     List<EstadoDTOResponse> findAll();
     List<EstadoDTOResponse> findByNome(String nome);
-    EstadoDTOResponse findById(Long id);
+    EstadoDTOResponse findById(Long id); 
     EstadoDTOResponse create(@Valid EstadoDTO dto);
     void update(Long id, @Valid EstadoDTO dto);
     void delete(Long id);

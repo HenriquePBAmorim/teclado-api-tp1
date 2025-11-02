@@ -28,9 +28,11 @@ public class ModeloServiceImpl implements ModeloService {
 
     @Override
     public ModeloDTOResponse findById(Long id) {
+        // CORREÇÃO: Implementando o padrão do professor
         Modelo m = repository.findById(id);
         if (m == null)
-            throw new NotFoundException("Modelo não encontrado.");
+            return null; 
+        
         return ModeloDTOResponse.valueOf(m);
     }
 
@@ -72,7 +74,6 @@ public class ModeloServiceImpl implements ModeloService {
     @Override
     @Transactional
     public void delete(Long id) {
-        if (!repository.deleteById(id))
-            throw new NotFoundException("Modelo não encontrado.");
+        repository.deleteById(id);
     }
 }

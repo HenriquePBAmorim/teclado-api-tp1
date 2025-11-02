@@ -27,7 +27,8 @@ public class KeycapServiceImpl implements KeycapService {
     public KeycapDTOResponse findById(Long id) {
         Keycap k = repository.findById(id);
         if (k == null)
-            throw new NotFoundException("Keycap não encontrada.");
+            return null; 
+            
         return KeycapDTOResponse.valueOf(k);
     }
 
@@ -65,7 +66,6 @@ public class KeycapServiceImpl implements KeycapService {
     @Override
     @Transactional
     public void delete(Long id) {
-        if (!repository.deleteById(id))
-            throw new NotFoundException("Keycap não encontrada.");
+        repository.deleteById(id);
     }
 }

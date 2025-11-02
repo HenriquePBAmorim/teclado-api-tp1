@@ -1,4 +1,3 @@
-
 package br.unitins.topicos1.teclado.service;
 
 import java.util.List;
@@ -8,8 +7,8 @@ import jakarta.validation.Valid;
 
 public interface ModeloService {
     List<ModeloDTOResponse> findAll();
-    ModeloDTOResponse findById(Long id);
     List<ModeloDTOResponse> findByNome(String nome);
+    ModeloDTOResponse findById(Long id); 
     ModeloDTOResponse create(@Valid ModeloDTO dto);
     void update(Long id, @Valid ModeloDTO dto);
     void delete(Long id);

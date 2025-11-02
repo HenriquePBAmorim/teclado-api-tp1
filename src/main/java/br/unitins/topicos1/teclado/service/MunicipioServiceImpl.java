@@ -23,18 +23,14 @@ public class MunicipioServiceImpl implements MunicipioService {
 
     @Override
     public List<MunicipioDTOResponse> findAll() {
-        return repository
-                .listAll()
-                .stream()
+        return repository.listAll().stream()
                 .map(m -> MunicipioDTOResponse.valueOf(m))
                 .toList();
     }
 
     @Override
     public List<MunicipioDTOResponse> findByNome(String nome) {
-        return repository
-                .findByNome(nome)
-                .stream()
+        return repository.findByNome(nome).stream()
                 .map(m -> MunicipioDTOResponse.valueOf(m))
                 .toList();
     }
@@ -43,7 +39,8 @@ public class MunicipioServiceImpl implements MunicipioService {
     public MunicipioDTOResponse findById(Long id) {
         Municipio municipio = repository.findById(id);
         if (municipio == null)
-            throw new NotFoundException("Município não encontrado.");
+            return null; 
+        
         return MunicipioDTOResponse.valueOf(municipio);
     }
 
@@ -59,7 +56,6 @@ public class MunicipioServiceImpl implements MunicipioService {
         municipio.setEstado(estado);
 
         repository.persist(municipio);
-
         return MunicipioDTOResponse.valueOf(municipio);
     }
 
@@ -81,7 +77,6 @@ public class MunicipioServiceImpl implements MunicipioService {
     @Override
     @Transactional
     public void delete(Long id) {
-        if (!repository.deleteById(id))
-            throw new NotFoundException("Município não encontrado.");
+        repository.deleteById(id);
     }
 }
